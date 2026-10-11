@@ -42,3 +42,7 @@ __pycache__/
 *.pyc
 .langgraph_api/
 .vercel
+
+# Docker deployment data (local config/secrets)
+docker/data/*
+!docker/data/bff.env.example

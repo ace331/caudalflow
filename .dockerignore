@@ -1,0 +1,27 @@
+# VCS / tooling
+.git
+.github
+.planning
+.zcode
+
+# Never bake secrets or local deployment data into images
+docker/data
+**/.env
+**/.env.*
+**/.venv
+
+# Local artifacts (rebuilt inside the image)
+node_modules
+dist
+coverage
+*.log
+.DS_Store
+
+# Not needed inside either image
+apps/agent
+apps/mcp
+bin
+docs
+*.md
+eslint.config.js
+vercel.json
