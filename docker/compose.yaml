@@ -1,0 +1,28 @@
+name: caudalflow
+
+services:
+  web:
+    # Locally built by default; override to deploy a prebuilt CI image, e.g.
+    #   WEB_IMAGE=ghcr.io/<owner>/caudalflow/web:latest docker compose up -d
+    image: ${WEB_IMAGE:-caudalflow-web:latest}
+    build:
+      context: ..
+      dockerfile: docker/web.Dockerfile
+    ports:
+      - "${WEB_PORT:-8088}:80"
+    depends_on:
+      - bff
+    restart: unless-stopped
+
+  bff:
+    image: ${BFF_IMAGE:-caudalflow-bff:latest}
+    # Optional server-side config (API keys etc.) kept on the host.
+    # The stack boots fine without this file; keys can also be set in the
+    # browser Settings panel, which take precedence over these defaults.
+    env_file:
+      - path: ./data/bff.env
+        required: false
+    environment:
+      PORT: "4000"
+      FRONTEND_ORIGIN: ${FRONTEND_ORIGIN:-http://localhost:${WEB_PORT:-8088}}
+    restart: unless-stopped
